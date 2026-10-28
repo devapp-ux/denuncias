@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('denuncias', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('manifestacao_id')
+                ->unique()
+                ->constrained('manifestacoes')
+                ->cascadeOnDelete();
+
+            $table->string('assunto');
+            $table->string('categoria');
+            $table->string('outra_categoria')->nullable();
+            $table->string('local')->nullable();
+            $table->date('data_ocorrencia')->nullable();
+            $table->string('continua')->nullable();
+            $table->string('unidade_organica');
+            $table->text('descricao');
+            $table->string('pessoas_envolvidas')->nullable();
+            $table->text('identificacao_pessoas')->nullable();
+            $table->string('testemunhas')->nullable();
+            $table->text('identificacao_testemunhas')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('denuncias');
+    }
+};
